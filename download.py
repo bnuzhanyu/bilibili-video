@@ -255,7 +255,7 @@ if __name__ == '__main__':
     parser.add_argument('-b', '--best', action='store_true', help='下载最高画质')
     parser.add_argument('-q', '--quality', type=str, default='720p', help='指定视频质量，如 "720p", "1080p", "480p" 或自定义格式')
     parser.add_argument('-s', '--skip-existing', action='store_true', default=True, help='跳过已存在的文件')
-    parser.add_argument('-w', '--workers', type=int, default=5, help='同时下载的URL数量')
+    parser.add_argument('-w', '--workers', type=int, default=3, help='同时下载的URL数量')
     parser.add_argument('-cf', '--concurrent-fragments', type=int, default=1, help='单个视频的并行片段下载数')
     parser.add_argument('-cp', '--concurrent-playlists', type=int, default=4, help='播放列表的并行下载数')
     parser.add_argument('--subs', action='store_true', help='下载字幕')
