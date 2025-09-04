@@ -1,0 +1,11 @@
+#使用样例
+
+## 按单个文件里的url列表进行下载
+```shell
+python download.py -f list/20250904 -d tmp_download --quality 720p
+```
+
+## 按单个url下载
+```shell
+sh dl.sh https://www.bilibili.com/video/BV1Zm421u7Nt/?spm_id_from=333.1391.0.0&vd_source=fff1640d24f8c49820d846fb653e9968
+```
