@@ -11,6 +11,8 @@ class DownloadItem:
     url: str
     author: str = None  # 设为可选参数，可以通过yt-dlp获取
     title: str = None   # 设为可选参数，可以通过yt-dlp获取
+    start: int = None
+    end: int = None
 
     def site(self):
         if 'bilibili.com' in self.url:
@@ -94,6 +96,9 @@ def download_from_item(item: DownloadItem, config: DownloadConfig):
         # 不使用 --concurrent-downloads，而是使用其他方式优化播放列表下载
         # 例如，可以使用 --playlist-random 随机化下载顺序，减少服务器负载
         playlist_args = " --no-playlist-reverse"
+    
+    if item.start is not None and item.end is not None:
+        playlist_args += f" --playlist-items {item.start}-{item.end}"
     
     # 添加画质选择参数
     quality_args = ""
@@ -197,14 +202,22 @@ def download_from_file(file: str, config: DownloadConfig = None):
                 if line.startswith('http'):
                     parts = line.split()
                     url = parts[0]
+                    url_parts =url.split('|')
+                    url = url_parts[0]
+                    start = None
+                    end = None
+                    if len(url_parts) > 1:
+                        url = url_parts[0]
+                        start = int(url_parts[1])
+                        end = int(url_parts[2])
                     
                     # 如果提供了作者和标题，使用它们；否则让yt-dlp获取
                     if len(parts) >= 3:
                         author = parts[1]
                         title = parts[2]
-                        item = DownloadItem(url=url, author=author, title=title)
+                        item = DownloadItem(url=url, author=author, title=title, start=start, end=end)
                     else:
-                        item = DownloadItem(url=url)
+                        item = DownloadItem(url=url, start=start, end=end)
                     
                     # 多线程下载
                     executor.submit(download_from_item, item, config)
